@@ -1,0 +1,64 @@
+<div class="container mt-5">
+  <% function formatDate(dateString) {
+      const date = new Date(dateString);
+      let month = '' + (date.getMonth() + 1),
+          day = '' + date.getDate(),
+          year = date.getFullYear();
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+      return [year, month, day].join('-');
+  } %>
+
+  <% let displayedGroups = []; %>
+  <% if (data.currentUser.groups && data.currentUser.groups.nodes && data.currentUser.groups.nodes.length > 0) { %>
+      <% if (data.currentUser.groups.nodes.length > 3) { 
+        displayedGroups = data.currentUser.groups.nodes.slice(0, 3);
+        %>
+          <p class="alert alert-info">Showing the first 3 of <%= data.currentUser.groups.nodes.length %> groups.</p>
+      <% } else { %>
+          displayedGroups = data.currentUser.groups.nodes;
+      <% } %>
+
+      <% displayedGroups.forEach(function(group) { %>
+          <div class="mb-5">
+              <h2 class="mb-3"><%= group.name %></h2>
+              <% if (group.avatarUrl) { %>
+                  <img src="<%= group.avatarUrl %>" alt="Group Avatar" class="img-thumbnail mb-3" style="width: 100px;" crossorigin="anonymous">
+              <% } %>
+              <p>Path: <%= group.fullPath %></p>
+              <a href="https://gitlab.com/groups/<%= group.fullPath %>" class="btn btn-primary mb-3">View Group</a>
+
+              <% if (group.projects && group.projects.nodes && group.projects.nodes.length > 0) { %>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Project Name</th>
+                              <th>Path</th>
+                              <th>Last Commit Date</th>
+                              <th>Last Commit Author</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <% let displayedProjects = group.projects.nodes.slice(0, 5); %>
+                          <% displayedProjects.forEach(function(project) { %>
+                              <tr>
+                                  <td><a href="https://gitlab.com/<%= project.path %>"><%= project.name %></a></td>
+                                  <td><%= project.fullPath %></td>
+                                  <td><%= project.repository.tree.lastCommit ? formatDate(project.repository.tree.lastCommit.authoredDate) : 'N/A' %></td>
+                                  <td><%= project.repository.tree.lastCommit && project.repository.tree.lastCommit.author ? project.repository.tree.lastCommit.author.name : 'N/A' %></td>
+                              </tr>
+                          <% }) %>
+                      </tbody>
+                  </table>
+                  <% if (group.projects.nodes.length > 5) { %>
+                      <p class="alert alert-info">Showing the first 5 of <%= group.projects.nodes.length %> projects.</p>
+                  <% } %>
+              <% } else { %>
+                  <p>No projects found in this group.</p>
+              <% } %>
+          </div>
+      <% }) %>
+  <% } else { %>
+      <p>No groups found.</p>
+  <% } %>
+</div>

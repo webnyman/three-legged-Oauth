@@ -1,0 +1,23 @@
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container">
+    <h3>
+      Assignment WT1
+    </h3>
+    <p>
+      OAuth + Consuming REST and GraphQL APIs
+    </p>
+    <% if (!locals.isLoggedIn) { %>
+    <p>
+      <div class="d-flex align-items-center">
+        <img src="https://gitlab.lnu.se/uploads/-/system/appearance/header_logo/1/gitlab-logo-500.png" alt="GitLab LNU" style="width: 50px; height: auto; margin-right: 10px;">
+        <a class="btn btn-primary btn-lg" href="./user/login" role="button">
+            Login with gitlab.lnu.se
+        </a>
+    </div>
+    
+    </p>
+    <% } %>
+  </div>
+</div>
+<!-- /container -->

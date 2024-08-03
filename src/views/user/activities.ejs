@@ -1,0 +1,33 @@
+<div class="container py-5">
+  <h1>Activities</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Action name</th>
+        <th>Created at</th>
+        <th>Target title</th>
+        <th>Target type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (viewData && viewData.length > 0) { %>
+          <% viewData.slice(0, 101).forEach((activity, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= activity.action_name %></td>
+                <td><%= activity.created_at %></td>
+                <td><%= activity.target_title %></td>
+                <td><%= activity.target_type %></td>
+              </tr>
+          <% }) %>
+      <% } else { %>
+          <tr>
+            <td colspan="5" class="text-center text-danger">
+              There are no activities to display.
+            </td>
+          </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
